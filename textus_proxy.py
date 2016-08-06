@@ -12,10 +12,10 @@ import webbrowser
 from bs4 import BeautifulSoup
 
 # указываем полный адрес http / https
-url = 'http://habrahabr.ru/company/yandex/blog/258673/'
+pars_url = 'http://habrahabr.ru/company/yandex/blog/258673/'
 
 try:
-    r = requests.get(url)
+    r = requests.get(pars_url)
     if not r.encoding == "UTF-8":
         r.encoding = 'UTF-8'
         print('SET NEW ENCODING', r.encoding)
