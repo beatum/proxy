@@ -166,7 +166,7 @@ class Client(asyncore.dispatcher):
 
 if __name__ == "__main__":
     if len(sys.argv) < 4:
-        print(">>", sys.stderr, "Use: python asynserver.py "
+        print(">>", sys.stderr, "Use: python asynс_proxy.py "
                                 "local_port remote_host remote_port")
         sys.exit(2)
     Server(int(sys.argv[1]), (sys.argv[2], int(sys.argv[3])))
