@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 
 """
-Created by Ivan Semernyakov 06.08.16
+Created by Ivan Semernyakov 06.08.16 <direct@beatum-group.ru>
 """
 import SocketServer
 import requests
