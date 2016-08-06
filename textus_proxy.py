@@ -11,7 +11,7 @@ import sys
 import webbrowser
 from bs4 import BeautifulSoup
 
-# change if need
+# указываем полный адрес http / https
 url = 'http://habrahabr.ru/company/yandex/blog/258673/'
 
 try:
@@ -26,7 +26,7 @@ except requests.exceptions.RequestException as e:
 finally:
     r.close()
 
-# передаём бинарные данные в soup, для обработки
+# инициализируем парсер
 soup = BeautifulSoup(html, 'html.parser')
 
 # выбираем тег с основным контентом, в этой строке
@@ -43,27 +43,29 @@ for string in tag.stripped_strings:
 
 string = "".join(all_string)
 
-# разбиваем текст по словам, и через каждое 6-ое слово вставляем символ TM
+# разбиваем текст по словам, через каждое 6-ое слово вставляем символ TM
 formatted = ['{} {}'.format(x, '<sup>TM</sup>' if (enum % 6) == 0 else '')
              for enum, x in enumerate(string.split(), start=1)]
 
-# возвращаем полученны результат в структуру документа
+# возвращаем полученный результат
 tag.string = " ".join(formatted)
 
 
 class EchoHandler(SocketServer.BaseRequestHandler):
     def handle(self):
-        print("Connected from", self.client_address)
+        print("Соединение открыто:", self.client_address)
         while True:
             data = self.request.recv(8192)
             if not data:
                 break
+            # отправляем данные на локальный прокси-сервер
             self.request.sendall(str(soup))
         self.request.close()
-        print("Disconnected from", self.client_address)
+        print("Соединение закрыто", self.client_address)
 
 
 if __name__ == '__main__':
+    # инициализируем 
     srv = SocketServer.ThreadingTCPServer(('localhost', 8080), EchoHandler)
     srv.allow_reuse_address = True
     url = 'http://localhost:8080'
